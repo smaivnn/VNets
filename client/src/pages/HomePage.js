@@ -7,9 +7,9 @@ import TopPost from "../components/Post/TopPost";
 // width 1190으로
 const HomePage = () => {
   return (
-    <div class="relative w-full mx-auto ">
+    <div className="relative w-full mx-auto ">
       {" "}
-      <div class="inline-block w-[750px] float-left">
+      <div className="inline-block w-[750px] float-left">
         {" "}
         {/*w-96 inline-block min-w-min*/}
         <RecentPost /> {/*공지사항*/}
@@ -17,7 +17,7 @@ const HomePage = () => {
         <RecentPost /> {/*질문*/}
         <RecentPost /> {/*스터디*/}
       </div>
-      <div class="inline-block w-[350px] float-right">
+      <div className="inline-block w-[350px] float-right">
         {" "}
         {/*w-80 inline-block min-w-min */}
         <Auth />

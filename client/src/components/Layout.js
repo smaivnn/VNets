@@ -11,8 +11,7 @@ const Layout = () => {
       <Nav />
       <main
         id="container"
-        className="App"
-        class="relative w-[1190px] mx-auto my-10 overflow-hidden"
+        className="App relative w-[1190px] mx-auto my-10 overflow-hidden"
       >
         <Outlet />
       </main>

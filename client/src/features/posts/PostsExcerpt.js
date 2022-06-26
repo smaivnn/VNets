@@ -11,11 +11,11 @@ const PostsExcerpt = ({ postId }) => {
   return (
     <div>
       <ul>
-        <li class="my-5 border borber-2 border-gray-200 px-[10px] py-[6px] border-l-very_peri border-l-[3px] shadow-md shadow-very_light_one">
-          <a>{post.TITLE}</a>
-          <div class="inline-block float-right">
-            <span>{post.WRITER}</span>
-            <span>{post.DATE}</span>
+        <li className="my-5 border borber-2 border-gray-200 px-[10px] py-[6px] border-l-very_peri border-l-[3px] shadow-md shadow-very_light_one">
+          <a>{post.title}</a>
+          <div className="inline-block float-right">
+            <span>{post.writer}</span>
+            <span>{post.date}</span>
           </div>
         </li>
 
