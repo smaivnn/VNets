@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Cafe24Ssurround";
+  src: url("./font/Cafe24Ssurround.ttf");
+}
+@font-face {
+  font-family: "Cafe24Simplehae";
+  src: url("./font/Cafe24Simplehae.ttf");
+}
+
+@font-face {
+  font-family: "GmarketSansTTFBold";
+  src: url("./font/GmarketSansTTFBold.ttf");
+}
+@font-face {
+  font-family: "GmarketSansTTFLight";
+  src: url("./font/GmarketSansTTFLight.ttf");
+}
+@font-face {
+  font-family: "GmarketSansTTFMedium";
+  src: url("./font/GmarketSansTTFMedium.ttf");
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+#header {
+  font-family: "GmarketSansTTFBold";
+}
+
+#navigation {
+  font-family: "GmarketSansTTFMedium";
+}
+
+#container {
+  font-family: "GmarketSansTTFMedium";
+}
