@@ -15,13 +15,15 @@ const Layout = () => {
         id="container"
         className="App relative w-[1190px] mx-auto my-10 overflow-hidden"
       >
-        <div>
-          <Outlet />
-        </div>
-        <div className="inline-block w-[350px] float-right">
-          <Auth />
-          <TopPost />
-        </div>
+        <secion className="relative w-full mx-auto ">
+          <div className="inline-block w-[750px] float-left">
+            <Outlet />
+          </div>
+          <div className="inline-block w-[350px] float-right">
+            <Auth />
+            <TopPost />
+          </div>
+        </secion>
       </main>
       <hr />
       <Footer />

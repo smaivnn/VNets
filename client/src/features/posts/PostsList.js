@@ -58,11 +58,11 @@ const PostsList = () => {
 
       <div>
         <div>
-          <span>공지사항</span>
-          <span>브이넷 공지사항입니다.</span>
+          <p className="text-2xl">공지사항</p>
+          <p className="inline-block mt-2">브이넷 공지사항입니다.</p>
           <button
             type="button"
-            className="w-[80px] h-[30px] border border-2 border-very_peri bg-white text-very_peri rounded-md px-2 py-1 m-2 transition duration-450 ease select-none hover:bg-very_peri hover:text-white focus:outline-none focus:shadow-outline"
+            className="w-[80px] h-[30px] border border-2 border-very_peri bg-white text-very_peri rounded-md px-2 py-1 transition duration-450 ease select-none hover:bg-very_peri hover:text-white focus:outline-none focus:shadow-outline float-right"
           >
             글쓰기
           </button>
