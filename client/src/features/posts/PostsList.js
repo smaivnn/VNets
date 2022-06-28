@@ -1,12 +1,21 @@
 import { useSelector } from "react-redux";
-import { selectPostIds, getPostsStatus, getPostsError } from "./postsSlice";
-
+import {
+  selectPostIds,
+  getPostsStatus,
+  getPostsError,
+  fetchPosts,
+} from "./postsSlice";
 import PostsExcerpt from "./PostsExcerpt";
+import { store } from "../../app/store";
+import Auth from "../../components/Auth/Auth";
+import TopPost from "../../components/Post/TopPost";
 
 /*
   모든 포스트를 불러와서 
   목록에 나타낸다.
 */
+
+store.dispatch(fetchPosts());
 
 const PostsList = () => {
   const orderedPostsIds = useSelector(selectPostIds); // all post
@@ -21,11 +30,47 @@ const PostsList = () => {
     content = orderedPostsIds.map((postId) => (
       <PostsExcerpt key={postId} postId={postId} />
     ));
+    console.log("ordered", orderedPostsIds);
   } else if (postsStatus === "failed") {
     content = <p>{error}</p>;
   }
 
-  return <section>{content}</section>;
+  return (
+    <section>
+      {/* className="relative w-full mx-auto " */}
+      {/* <div className="inline-block w-[750px] float-left">
+        <div>
+          <span>공지사항</span>
+          <span>브이넷 공지사항입니다.</span>
+          <button
+            type="button"
+            className="w-[80px] h-[30px] border border-2 border-very_peri bg-white text-very_peri rounded-md px-2 py-1 m-2 transition duration-450 ease select-none hover:bg-very_peri hover:text-white focus:outline-none focus:shadow-outline"
+          >
+            글쓰기
+          </button>
+        </div>
+        {content}
+      </div>
+      <div className="inline-block w-[350px] float-right">
+        <Auth />
+        <TopPost />
+      </div> */}
+
+      <div>
+        <div>
+          <span>공지사항</span>
+          <span>브이넷 공지사항입니다.</span>
+          <button
+            type="button"
+            className="w-[80px] h-[30px] border border-2 border-very_peri bg-white text-very_peri rounded-md px-2 py-1 m-2 transition duration-450 ease select-none hover:bg-very_peri hover:text-white focus:outline-none focus:shadow-outline"
+          >
+            글쓰기
+          </button>
+        </div>
+        {content}
+      </div>
+    </section>
+  );
 };
 
 export default PostsList;

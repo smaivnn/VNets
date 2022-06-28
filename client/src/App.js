@@ -9,7 +9,7 @@ import Home from "./components/Home";
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import NoticePage from "./pages/NoticePage";
-import PostList from "./components/Post/PostList";
+import PostList from "./features/posts/PostsList";
 
 const ROLES = {
   Guest: 2001,
@@ -24,7 +24,7 @@ function App() {
         <Route index element={<HomePage />} />
 
         <Route path="notice">
-          <Route index element={<NoticePage />} />
+          <Route index element={<PostList />} />
         </Route>
 
         <Route path="register">

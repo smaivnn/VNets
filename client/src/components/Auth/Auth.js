@@ -17,7 +17,7 @@ const Auth = () => {
         <div>
           <form className="item-center max-w-md w-full bg-white rounded space-y-2 my-1">
             <div>
-              <label for="ID" className="sr-only">
+              <label htmlFor="ID" className="sr-only">
                 아이디
               </label>
               <input
@@ -29,7 +29,7 @@ const Auth = () => {
               />
             </div>
             <div>
-              <label for="PASSWORD" className="sr-only">
+              <label htmlFor="PASSWORD" className="sr-only">
                 비밀번호
               </label>
               <input

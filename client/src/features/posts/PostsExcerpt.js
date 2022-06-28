@@ -11,11 +11,18 @@ const PostsExcerpt = ({ postId }) => {
   return (
     <div>
       <ul>
-        <li className="my-5 border borber-2 border-gray-200 px-[10px] py-[6px] border-l-very_peri border-l-[3px] shadow-md shadow-very_light_one">
-          <a>{post.title}</a>
-          <div className="inline-block float-right">
-            <span>{post.writer}</span>
-            <span>{post.date}</span>
+        <li className="my-5 border borber-2 border-gray-200 px-[10px] py-[6px] border-l-very_peri border-l-[3px] shadow-md shadow-very_light_one align-middle align-middle">
+          <div className="inline-block w-[550px]">
+            <a className="block">{post.title.substring(0, 10)}</a>
+            <div className="inline-block">
+              <span>{post.body.substring(0, 75)}</span>
+              <span>안녕</span>
+            </div>
+          </div>
+          <div className="inline-block text-right">
+            <p className="">작성자</p>
+            <p className="text-xs">{post.date}</p>
+            <p className="text-xs">3 조회 23 추천</p>
           </div>
         </li>
 

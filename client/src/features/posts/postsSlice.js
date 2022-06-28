@@ -7,11 +7,12 @@ import {
 import { sub } from "date-fns";
 import axios from "axios";
 const POSTS_URL =
-  "https://addce8e1-dac4-4afe-8fc0-82b0090acc95.mock.pstmn.io/post";
+  // "https://addce8e1-dac4-4afe-8fc0-82b0090acc95.mock.pstmn.io/post";
+  "https://jsonplaceholder.typicode.com/posts";
 
 // 최신순 정렬
 const postAdapter = createEntityAdapter({
-  sortComparer: (a, b) => b.DATE.localeCompare(a.DATE),
+  sortComparer: (a, b) => b.date.localeCompare(a.date),
 });
 
 const initialState = postAdapter.getInitialState({
@@ -22,7 +23,7 @@ const initialState = postAdapter.getInitialState({
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
     const response = await axios.get(POSTS_URL);
-    console.log("RESPONSE", response);
+    console.log("fetch", response.data);
     return [...response.data];
   } catch (err) {
     return err.message;
@@ -41,10 +42,9 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = "succeeded";
         // Adding date and reactions
-
-        let min = 1;
+        let min = 1; // 분
         const loadedPosts = action.payload.map((post) => {
-          post.DATE = sub(new Date(), { minutes: min++ }).toISOString();
+          post.date = sub(new Date(), { minutes: min++ }).toISOString();
 
           return post;
         });
