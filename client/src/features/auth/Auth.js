@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import axios from "../../api/axios";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login, loginCheck } from "./authSlice";
+import { store } from "../../app/store";
 
 ///////////////////////////////////////////////
 
@@ -8,41 +11,53 @@ import axios from "../../api/axios";
 
 //////////////////////////////////////////////
 
-const LOGIN_URL = "/auth/login";
-
 const Auth = () => {
+  const dispatch = useDispatch();
+  // const navigate = useNavigate();
+
   const [USER_ID, setUSER_ID] = useState("");
   const [USER_PASSWORD, setUSER_PASSWORD] = useState("");
+  const [requestStatus, setRequestStatus] = useState("idle");
+  const [logedIn, setlogedIn] = useState();
+
+  // useEffect(() => {
+  //   const response = dispatch(loginCheck());
+
+  //   console.log(response.data);
+  // }, []);
+
+  const canSave =
+    [USER_ID, USER_PASSWORD].every(Boolean) && requestStatus === "idle";
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        LOGIN_URL,
-        JSON.stringify({
-          USER_ID,
-          USER_PASSWORD,
-        }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
+    // e.preventDefault();
+    if (canSave) {
+      try {
+        setRequestStatus("pending");
+        dispatch(
+          login({
+            USER_ID,
+            USER_PASSWORD,
+          })
+        ).unwrap();
 
-      const accessToken = response?.data?.accessToken;
-      console.log(accessToken);
-      setUSER_ID("");
-      setUSER_ID("");
-      console.log("login success");
-    } catch (err) {
-      if (!err?.response) {
-        console.log("No Server Response");
-      } else if (err.response?.status === 400) {
-        console.log("Missing Username or Password");
-      } else if (err.response?.status === 401) {
-        console.log("Unauthorized");
-      } else {
-        console.log("Login Failed");
+        setUSER_ID("");
+        setUSER_ID("");
+        console.log("login success");
+        console.log(store.getState());
+        // navigate("/");
+      } catch (err) {
+        if (!err?.response) {
+          console.log("No Server Response");
+        } else if (err.response?.status === 400) {
+          console.log("Missing Username or Password");
+        } else if (err.response?.status === 401) {
+          console.log("Unauthorized");
+        } else {
+          console.log("Login Failed");
+        }
+      } finally {
+        setRequestStatus("idle");
       }
     }
   };

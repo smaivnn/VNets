@@ -48,7 +48,7 @@ const handleLogin = async (req, res) => {
     // Saving refreshToken with current user(support multple login)
     foundUser.refreshToken = refreshToken;
     const result = await foundUser.save();
-    console.log("LC_RESULT", result); ///////////////////////////////////////////////////
+    // console.log("LC_RESULT", result); ///////////////////////////////////////////////////
 
     // Create Secure Cookie with refreshToken
     res.cookie("jwt", refreshToken, {

@@ -8,8 +8,9 @@ import RequireAuth from "./features/auth/RequireAuth";
 import Home from "./components/Home";
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import NoticePage from "./pages/NoticePage";
 import PostList from "./features/posts/PostsList";
+import Posting from "./features/posts/Posting";
+import PersistLogin from "./features/auth/PersistLogin";
 
 const ROLES = {
   Guest: 2001,
@@ -20,11 +21,17 @@ const ROLES = {
 function App() {
   return (
     <Routes>
+      {/* <Route element={<PersistLogin />}> */}
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
 
-        <Route path="notice">
-          <Route index element={<PostList />} />
+        <Route path="board">
+          <Route path="notice" element={<PostList />} />
+          <Route path="create" element={<Posting />} />
+        </Route>
+
+        <Route path="auth">
+          <Route path="register" element={<Register />} />
         </Route>
 
         <Route path="register">
@@ -55,6 +62,7 @@ function App() {
         {/* Catch all - replace with 404 component if you want */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
+      {/* </Route> */}
     </Routes>
   );
 }

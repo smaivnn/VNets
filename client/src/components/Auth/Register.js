@@ -1,5 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
+import axios from "../../api/axios";
 import { Link } from "react-router-dom";
+
+const REGISTER_URL = "/auth/register";
 
 const Register = () => {
   const [UserId, setUserId] = useState("");
@@ -8,11 +11,48 @@ const Register = () => {
   const [UserName, setUserName] = useState("");
   const [StudentId, setStudentId] = useState("");
   const [Nickname, setNickname] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        REGISTER_URL,
+        JSON.stringify({
+          USER_ID: UserId,
+          USER_PASSWORD: UserPwd,
+          USER_NAME: UserName,
+          USER_studentID: StudentId,
+          USER_NICKNAME: Nickname,
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      console.log("resgister response", JSON.stringify(response));
+      setUserId("");
+      setUserPwd("");
+      setMatchPwd("");
+      setUserName("");
+      setStudentId("");
+      setNickname("");
+    } catch (err) {
+      if (!err?.response) {
+        console.log("No Server Response");
+      } else if (err.response?.status === 409) {
+        console.log("Username Taken");
+      } else {
+        console.log("Registration Failed");
+      }
+    }
+  };
+
   return (
     <>
       <section>
         <h1>Register</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <label htmlFor="UserId">ID</label>
           <input
             type="text"
@@ -99,20 +139,7 @@ const Register = () => {
             // onBlur={() => setUserFocus(false)}
           />
           <br />
-          <button
-            type="submit"
-            onClick={(e) => {
-              e.preventDefault();
-              console.log("UserId", UserId);
-              console.log("UserPwd", UserPwd);
-              console.log("MatchPwd", MatchPwd);
-              console.log("UserName", UserName);
-              console.log("StudentId", StudentId);
-              console.log("Nickname", Nickname);
-            }}
-          >
-            BUTTON
-          </button>
+          <button type="submit">BUTTON</button>
         </form>
         <p>
           Already registered?

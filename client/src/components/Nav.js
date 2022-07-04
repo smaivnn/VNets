@@ -46,7 +46,7 @@ const Nav = () => {
             <li>
               <a
                 className="block px-4 py-1 md:p-2 lg:px-4"
-                href="notice"
+                href="board/notice"
                 title="Link"
               >
                 Link

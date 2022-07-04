@@ -7,8 +7,7 @@ import {
 } from "./postsSlice";
 import PostsExcerpt from "./PostsExcerpt";
 import { store } from "../../app/store";
-import Auth from "../../components/Auth/Auth";
-import TopPost from "../../components/Post/TopPost";
+import { useNavigate } from "react-router-dom";
 
 /*
   모든 포스트를 불러와서 
@@ -18,6 +17,7 @@ import TopPost from "../../components/Post/TopPost";
 store.dispatch(fetchPosts());
 
 const PostsList = () => {
+  const navigate = useNavigate();
   const orderedPostsIds = useSelector(selectPostIds); // all post
   const postsStatus = useSelector(getPostsStatus); // current posting status
   const error = useSelector(getPostsError);
@@ -63,6 +63,7 @@ const PostsList = () => {
           <button
             type="button"
             className="w-[80px] h-[30px] border border-2 border-very_peri bg-white text-very_peri rounded-md px-2 py-1 transition duration-450 ease select-none hover:bg-very_peri hover:text-white focus:outline-none focus:shadow-outline float-right"
+            onClick={() => navigate(`/board/create`)}
           >
             글쓰기
           </button>
