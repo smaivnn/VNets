@@ -916,3 +916,5 @@
 20220706	13:47:51	b9b2a047-97d3-4803-b1a3-eba63d25e514	GET	http://localhost:3000	/auth/loginCheck
 20220706	13:47:52	cb08839c-84ef-4629-8800-902b26ca9ad8	GET	http://localhost:3000	/auth/loginCheck
 20220706	13:47:54	5aca8f72-cac3-4a6b-93df-b41d6f4f851d	GET	http://localhost:3000	/auth/loginCheck
+20220706	14:21:18	cb93d95a-a6a9-44aa-961f-e4908be6e261	OPTIONS	http://localhost:3000	/auth/loginCheck
+20220706	14:21:18	fb7297a0-b6ab-40d5-a97d-ec90ef8bbcef	GET	http://localhost:3000	/auth/loginCheck
