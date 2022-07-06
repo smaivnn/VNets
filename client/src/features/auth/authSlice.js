@@ -4,7 +4,9 @@ import {
   createEntityAdapter,
   current,
 } from "@reduxjs/toolkit";
+import jwt_decode from "jwt-decode";
 import axios from "../../api/axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const LOGIN_URL = "/auth/login";
 const LOGIN_CHECK_URL = "/auth/loginCheck";
@@ -24,8 +26,23 @@ export const login = createAsyncThunk("auth/login", async (initialUser) => {
     });
 
     const accessToken = response?.data?.accessToken;
+    const decoded = response?.data?.accessToken
+      ? jwt_decode(response.data.accessToken)
+      : undefined;
+
+    console.log(decoded);
     // axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     console.log("SLICE accessToken", accessToken); // accesstoken값
+    localStorage.setItem(
+      "userInfo",
+      JSON.stringify({
+        USER_ID: decoded.UserInfo.USER_ID,
+        USER_NICKNAME: decoded.UserInfo.USER_NICKNAME,
+        USER_studentID: decoded.UserInfo.USER_studentID,
+        USER_ROLE: decoded.UserInfo.roles,
+        accessToken: accessToken,
+      })
+    );
 
     return response.data;
   } catch (err) {
@@ -34,17 +51,14 @@ export const login = createAsyncThunk("auth/login", async (initialUser) => {
 });
 
 export const loginCheck = createAsyncThunk("auth/loginCheck", async () => {
+  // const axiosPrivate = useAxiosPrivate();)
+  const userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
   try {
-    const response = await axios.get(
-      LOGIN_CHECK_URL,
-      {},
-      {
-        withCredentials: true, // req에 쿠키를 보내는걸 allow해줌.
-      }
-    );
-    console.log("loginCheck", response.data);
+    const response = await axios.get(LOGIN_CHECK_URL, {
+      headers: { Authorization: `Bearer ${userInfo.accessToken}` },
+    });
 
-    return [...response.data];
+    return response.data;
   } catch (err) {
     return err.message;
   }
@@ -74,8 +88,13 @@ const authSlice = createSlice({
         console.log("state.AT", state.accessToken); //accesstoken 값
       })
       .addCase(loginCheck.fulfilled, (state, action) => {
-        console.log("pay", action.payload);
-        state.loginCheck = action.payload.login;
+        console.log("loginCheck입니다.");
+        if (action.payload.login === "success") {
+          state.status = "succeeded";
+          state.logedIn = true;
+        }
+        console.log(state.logedIn);
+        // state.loginCheck = action.payload.login;
       });
   },
 });

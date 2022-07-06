@@ -1,6 +1,6 @@
+import React, { useState, useEffect } from "react";
 import Layout from "./components/Layout";
 import Register from "./components/Auth/Register";
-import LoginForm from "./features/auth/LoginForm";
 import Editor from "./components/Editor";
 import Admin from "./components/Admin";
 import Unauthorized from "./components/Unauthorized";
@@ -10,7 +10,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import PostList from "./features/posts/PostsList";
 import Posting from "./features/posts/Posting";
+import Auth from "./features/auth/Auth";
 import PersistLogin from "./features/auth/PersistLogin";
+import { loginCheck } from "./features/auth/authSlice";
+import { useDispatch } from "react-redux";
+import { store } from "./app/store";
 
 const ROLES = {
   Guest: 2001,
@@ -19,6 +23,15 @@ const ROLES = {
 };
 
 function App() {
+  // const dispatch = useDispatch();
+  // console.log(store.getState().auth.logedIn);
+  // useEffect(() => {
+  //   //   //새로고침시 실행.
+
+  //   dispatch(loginCheck()).unwrap();
+  //   console.log("실행됨");
+  // }, [store.getState().auth.logedIn]);
+
   return (
     <Routes>
       {/* <Route element={<PersistLogin />}> */}
@@ -43,20 +56,8 @@ function App() {
         <Route path="unauthorized" element={<Unauthorized />} />
 
         <Route path="login">
-          <Route index element={<LoginForm />} />
+          <Route index element={<Auth />} />
           {/* <Route path=":userId" element={<UserPage />} /> */}
-        </Route>
-
-        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-          <Route path="/" element={<Home />} />
-        </Route>
-
-        <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-          <Route path="editor" element={<Editor />} />
-        </Route>
-
-        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-          <Route path="admin" element={<Admin />} />
         </Route>
 
         {/* Catch all - replace with 404 component if you want */}

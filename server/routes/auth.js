@@ -6,6 +6,6 @@ const loginCookieController = require("../controllers/loginCookieController");
 
 router.post("/login", loginController.handleLogin);
 router.post("/register", registerController.handleNewUser);
-router.post("/loginCheck", loginCookieController.handlePageRefresh);
+router.get("/loginCheck", loginCookieController.handlePageRefresh);
 
 module.exports = router;

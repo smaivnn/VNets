@@ -3,34 +3,32 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login, loginCheck } from "./authSlice";
 import { store } from "../../app/store";
+import axios from "../../api/axios";
 
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+const LOGIN_CHECK_URL = "/auth/loginCheck";
 ///////////////////////////////////////////////
 
 //      로그인 state를 만들어 로그인 상태에 따라
 //      서로 다른 화면을 보이도록 생성
-
+/* , {
+        headers: { Authorization: `Bearer ${userInfo.accessToken}` },
+      } */
 //////////////////////////////////////////////
 
 const Auth = () => {
   const dispatch = useDispatch();
+  const axiosPrivate = useAxiosPrivate();
   // const navigate = useNavigate();
 
   const [USER_ID, setUSER_ID] = useState("");
   const [USER_PASSWORD, setUSER_PASSWORD] = useState("");
   const [requestStatus, setRequestStatus] = useState("idle");
-  const [logedIn, setlogedIn] = useState();
-
-  // useEffect(() => {
-  //   const response = dispatch(loginCheck());
-
-  //   console.log(response.data);
-  // }, []);
 
   const canSave =
     [USER_ID, USER_PASSWORD].every(Boolean) && requestStatus === "idle";
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
     if (canSave) {
       try {
         setRequestStatus("pending");
@@ -39,12 +37,12 @@ const Auth = () => {
             USER_ID,
             USER_PASSWORD,
           })
-        ).unwrap();
+        ).unwrap(); //두번 보내서 그냥
 
         setUSER_ID("");
         setUSER_ID("");
         console.log("login success");
-        console.log(store.getState());
+        console.log(store.getState().auth.logedIn);
         // navigate("/");
       } catch (err) {
         if (!err?.response) {

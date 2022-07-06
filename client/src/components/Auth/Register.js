@@ -30,7 +30,7 @@ const Register = () => {
         }
       );
 
-      console.log("resgister response", JSON.stringify(response));
+      console.log("Register Success", response.data);
       setUserId("");
       setUserPwd("");
       setMatchPwd("");
