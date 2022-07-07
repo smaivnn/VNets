@@ -5,14 +5,14 @@ import {
   createEntityAdapter,
 } from "@reduxjs/toolkit";
 import { sub } from "date-fns";
-import axios from "axios";
-const POSTS_URL =
-  // "https://addce8e1-dac4-4afe-8fc0-82b0090acc95.mock.pstmn.io/post";
-  "https://jsonplaceholder.typicode.com/posts";
+import axios from "../../api/axios";
+const POSTS_URL = "/post";
+// "https://addce8e1-dac4-4afe-8fc0-82b0090acc95.mock.pstmn.io/post";
+// "https://jsonplaceholder.typicode.com/posts";
 
 // 최신순 정렬
 const postAdapter = createEntityAdapter({
-  sortComparer: (a, b) => b.date.localeCompare(a.date),
+  sortComparer: (a, b) => b.DATE.localeCompare(a.DATE),
 });
 
 const initialState = postAdapter.getInitialState({
@@ -22,13 +22,25 @@ const initialState = postAdapter.getInitialState({
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
-    const response = await axios.get(POSTS_URL);
+    const response = await axios.get(`${POSTS_URL}`);
     // console.log("fetch", response.data);
     return [...response.data];
   } catch (err) {
     return err.message;
   }
 });
+
+export const addNewPost = createAsyncThunk(
+  "posts/addNewPost",
+  async (initialPost) => {
+    try {
+      const response = await axios.post(`${POSTS_URL}/create`, initialPost);
+      return response.data;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
 
 const postsSlice = createSlice({
   name: "posts",
@@ -39,22 +51,28 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.pending, (state, action) => {
         state.status = "loading";
       })
-      .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        // Adding date and reactions
-        let min = 1; // 분
-        const loadedPosts = action.payload.map((post) => {
-          post.date = sub(new Date(), { minutes: min++ }).toISOString();
+      // .addCase(fetchPosts.fulfilled, (state, action) => {
+      //   state.status = "succeeded";
+      //   // Adding date and reactions
+      //   let min = 1; // 분
+      //   const loadedPosts = action.payload.map((post) => {
+      //     post.date = sub(new Date(), { minutes: min++ }).toISOString();
 
-          return post;
-        });
+      //     return post;
+      //   });
 
-        // Add any fetched posts to the array
-        postAdapter.upsertMany(state, loadedPosts); //
-      })
+      //   // Add any fetched posts to the array
+      //   postAdapter.upsertMany(state, loadedPosts); //
+      // })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(addNewPost.fulfilled, (state, action) => {
+        // action.payload.DATE = new Date().toISOString();
+
+        console.log(action.payload);
+        postAdapter.addOne(state, action.payload);
       });
   },
 });

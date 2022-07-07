@@ -12,8 +12,8 @@ import PostList from "./features/posts/PostsList";
 import Posting from "./features/posts/Posting";
 import Auth from "./features/auth/Auth";
 import PersistLogin from "./features/auth/PersistLogin";
-import { loginCheck } from "./features/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { getAuthLogedIn, loginCheck } from "./features/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { store } from "./app/store";
 
 const ROLES = {
@@ -23,32 +23,14 @@ const ROLES = {
 };
 
 function App() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const logedIn = useSelector(getAuthLogedIn);
   // console.log(store.getState().auth.logedIn);
-  // useEffect(() => {
-  //   //   //새로고침시 실행.
-
-  //   dispatch(loginCheck()).unwrap();
-  //   console.log("실행됨");
-  // }, [store.getState().auth.logedIn]);
-
-  /*
-  현재 문제점 :
-Layout 컴포넌트에서 리덕스에 저장된 스토어 상태가 success일때에 따라 보이게 하고싶은데,
-
- <div className="inline-block w-[350px] float-right">
-            {
-              LogedInState ? <div>successs</div> : <Auth />
-
-              // 컴포넌트 로딩이 느림.(AUTH가 디폴트로 되어있고, state가 ture여도 auth임.
-              // 그러다가 추후에 바뀜.)
-            }
-
-페이지 새로고침 시 리덕스 스토어에 lodedIn이 바뀌는게
-layout이 렌더링 되는것보다 늦는것 같음 그래서인지 div가 안나옴.
-useEffect, store.dispatch 등의 방법을 적용해보았으나 다 실패
-
-  */
+  // const [AuthCheck, setAuthCheck] = useState();
+  useEffect(() => {
+    //새로고침시 실행.
+    dispatch(loginCheck()).unwrap();
+  }, [logedIn]);
 
   return (
     <Routes>

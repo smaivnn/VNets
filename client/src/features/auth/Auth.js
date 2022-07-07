@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { login, loginCheck } from "./authSlice";
 import { store } from "../../app/store";
 import axios from "../../api/axios";
-
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 const LOGIN_CHECK_URL = "/auth/loginCheck";
 ///////////////////////////////////////////////
@@ -29,6 +28,7 @@ const Auth = () => {
     [USER_ID, USER_PASSWORD].every(Boolean) && requestStatus === "idle";
 
   const handleSubmit = async (e) => {
+    // e.preventDefault();
     if (canSave) {
       try {
         setRequestStatus("pending");

@@ -27,12 +27,11 @@ export const login = createAsyncThunk("auth/login", async (initialUser) => {
 
     const accessToken = response?.data?.accessToken;
     const decoded = response?.data?.accessToken
-      ? jwt_decode(response.data.accessToken)
+      ? jwt_decode(accessToken)
       : undefined;
 
     console.log(decoded);
     // axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-    console.log("SLICE accessToken", accessToken); // accesstoken값
     localStorage.setItem(
       "userInfo",
       JSON.stringify({
@@ -80,26 +79,50 @@ const authSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(login.fulfilled, (state, action) => {
+        //injected등 상태 다 만들어주기.
         // console.log("STATE", state.status); //idle
         state.status = "succeeded";
         const { accessToken } = action.payload;
-        state.accesstoken = accessToken;
+        const decoded = accessToken ? jwt_decode(accessToken) : undefined;
+
         state.logedIn = true;
-        console.log("state.AT", state.accessToken); //accesstoken 값
+        state.accessToken = accessToken;
+        state.userInfo = {
+          USER_ID: decoded.UserInfo.USER_ID,
+          USER_NICKNAME: decoded.UserInfo.USER_NICKNAME,
+          USER_studentID: decoded.UserInfo.USER_studentID,
+          USER_ROLE: decoded.UserInfo.roles,
+        };
       })
+      .addCase(login.rejected, (state, action) => {
+        state.status = "failed";
+        state.logedIn = false;
+        state.error = action.error.message;
+      })
+
       .addCase(loginCheck.fulfilled, (state, action) => {
-        console.log("loginCheck입니다.");
         if (action.payload.login === "success") {
           state.status = "succeeded";
+          const { accessToken } = action.payload;
+          const decoded = accessToken ? jwt_decode(accessToken) : undefined;
+
           state.logedIn = true;
+          state.accessToken = accessToken;
+          state.userInfo = {
+            USER_ID: decoded.UserInfo.USER_ID,
+            USER_NICKNAME: decoded.UserInfo.USER_NICKNAME,
+            USER_studentID: decoded.UserInfo.USER_studentID,
+            USER_ROLE: decoded.UserInfo.roles,
+          };
         }
-        console.log(state.logedIn);
-        // state.loginCheck = action.payload.login;
       });
   },
 });
 
 export const getUserAuth = (state) => state.auth.requireAuth;
+export const getAuthStatus = (state) => state.auth.status;
+export const getAuthLogedIn = (state) => state.auth.logedIn;
+export const getUserInfo = (state) => state.auth.userInfo;
 
 // export const { login } = authSlice.actions;
 

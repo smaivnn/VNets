@@ -1,4 +1,5 @@
 const User = require("../model/User");
+const jwt = require("jsonwebtoken");
 
 const handlePageRefresh = async (req, res) => {
   const cookies = req.cookies;
@@ -8,8 +9,30 @@ const handlePageRefresh = async (req, res) => {
   //find the exact user with exact rT
   const foundUser = await User.findOne({ refreshToken }).exec();
 
+  if (!foundUser) {
+    return res.sendStatus(401);
+  }
+
   if (foundUser.refreshToken === refreshToken) {
-    return res.json({ login: "success" });
+    // get User roles
+    const roles = Object.values(foundUser.USER_ROLES);
+
+    // create JWTs access token
+    // sign(payload : information to post in token, secretOrPrivateKey, [option,callback])
+    const accessToken = jwt.sign(
+      {
+        UserInfo: {
+          USER_ID: foundUser.USER_ID,
+          USER_NICKNAME: foundUser.USER_NICKNAME,
+          USER_studentID: foundUser.USER_studentID,
+          roles: roles,
+        },
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "10s" }
+    );
+
+    return res.json({ login: "success", accessToken, roles });
   }
   return res.json({ login: "fail" });
 };

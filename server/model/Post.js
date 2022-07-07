@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
-  WRITER: {
+  USER_ID: {
+    type: String,
+    required: true,
+  },
+  USER_NICKNAME: {
     type: String,
     required: true,
   },
@@ -22,13 +26,12 @@ const postSchema = new Schema({
     tpye: Number,
     default: 0,
   },
-  RECOMMENDED: {
+  LIKE: {
     tpye: Number,
     default: 0,
   },
   DATE: {
     type: String,
-    required: true,
   },
 });
 

@@ -6,16 +6,16 @@ import Footer from "./Footer";
 import Auth from "../features/auth/Auth";
 import TopPost from "./Post/TopPost";
 import { store } from "../app/store";
+import { useSelector } from "react-redux";
+import { getAuthLogedIn } from "../features/auth/authSlice";
 // h-auto min-h-full pb-[420px]
 const Layout = () => {
-  const [LogedInState, setLogedInState] = useState(
-    store.getState().auth.logedIn
-  );
-  console.log("Layout입니다.");
+  const logedInState = useSelector(getAuthLogedIn);
+  const [AuthState, setAuthState] = useState(logedInState);
 
   useEffect(() => {
-    console.log("store", store.getState().auth);
-  });
+    setAuthState(logedInState);
+  }, [logedInState]);
 
   return (
     <>
@@ -30,12 +30,8 @@ const Layout = () => {
             <Outlet />
           </div>
           <div className="inline-block w-[350px] float-right">
-            {
-              LogedInState ? <div>successs</div> : <Auth />
+            {AuthState ? <div>success</div> : <Auth />}
 
-              // 컴포넌트 로딩이 느림.(AUTH가 디폴트로 되어있고, state가 ture여도 auth임.
-              // 그러다가 추후에 바뀜.)
-            }
             <TopPost />
           </div>
         </section>
