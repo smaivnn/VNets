@@ -46,28 +46,28 @@ const Nav = () => {
             <li>
               <a
                 className="block px-4 py-1 md:p-2 lg:px-4"
-                href="board/notice"
+                href="/board/notice"
                 title="Link"
               >
-                Link
+                공지사항
               </a>
             </li>
             <li>
               <a
                 className="block px-4 py-1 md:p-2 lg:px-4 text-very_peri"
-                href="/"
+                href="/board/study"
                 title="Active Link"
               >
-                Active Link
+                스터디
               </a>
             </li>
             <li>
               <a
                 className="block px-4 py-1 md:p-2 lg:px-4"
-                href="/editor"
+                href="/board/question"
                 title="Link"
               >
-                Link
+                질문
               </a>
             </li>
           </ul>
@@ -75,10 +75,10 @@ const Nav = () => {
             <li>
               <a
                 className="block px-4 py-1 md:p-2 lg:px-4"
-                href="#"
+                href="/board/community"
                 title="Link"
               >
-                Link
+                커뮤니티
               </a>
             </li>
             <li>

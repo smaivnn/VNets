@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <header id="header">
       <div className="max-w-2xl mx-auto flex justify-center text-5xl m-10">
-        <p>V.NETS</p>
+        <a href="/">V.NETS</a>
       </div>
       <div className="max-w-2xl mx-auto">
         <form className="flex items-center">

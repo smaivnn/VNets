@@ -1,13 +1,21 @@
 const Post = require("../../model/Post");
 
 const handlePostList = async (req, res) => {
-  const { CLASSIFICATION } = req.body;
-  const matchedPost = Post.find({ CLASSIFICATION: CLASSIFICATION }).exec();
-  if (!matchedPost) {
-    return res.sendStatus(401);
-  }
+  try {
+    const response = await Post.find({}).exec();
 
-  res.json({ matchedPost });
+    if (!response) {
+      return res.sendStatus(401);
+    }
+    console.log(response);
+
+    res.json({ response });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = { handlePostList };
+
+//get으로오는거 json형식으로바꾸기 ??
+//

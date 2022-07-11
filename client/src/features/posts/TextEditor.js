@@ -46,6 +46,7 @@ const TextEditor = () => {
     if (canSave) {
       const USER_ID = userInfo.USER_ID;
       const USER_NICKNAME = userInfo.USER_NICKNAME;
+      const DATE = new Date().toISOString();
       try {
         dispatch(
           addNewPost({

@@ -4,14 +4,15 @@ import {
   createSelector,
   createEntityAdapter,
 } from "@reduxjs/toolkit";
-import { sub } from "date-fns";
+import { parseISO, sub } from "date-fns";
 import axios from "../../api/axios";
-const POSTS_URL = "/post";
-// "https://addce8e1-dac4-4afe-8fc0-82b0090acc95.mock.pstmn.io/post";
+const POSTS_URL = "post";
+// "https://addce8e1-dac4-4afe-8fc0-82b0090acc95.mock.pstmn.io/post "/post";";
 // "https://jsonplaceholder.typicode.com/posts";
 
 // 최신순 정렬
 const postAdapter = createEntityAdapter({
+  selectId: (post) => post._id,
   sortComparer: (a, b) => b.DATE.localeCompare(a.DATE),
 });
 
@@ -22,9 +23,8 @@ const initialState = postAdapter.getInitialState({
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
-    const response = await axios.get(`${POSTS_URL}`);
-    // console.log("fetch", response.data);
-    return [...response.data];
+    const response = await axios.get(POSTS_URL);
+    return [...response.data.response];
   } catch (err) {
     return err.message;
   }
@@ -33,8 +33,10 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
 export const addNewPost = createAsyncThunk(
   "posts/addNewPost",
   async (initialPost) => {
+    console.log(initialPost);
     try {
       const response = await axios.post(`${POSTS_URL}/create`, initialPost);
+
       return response.data;
     } catch (err) {
       return err.message;
@@ -51,19 +53,20 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.pending, (state, action) => {
         state.status = "loading";
       })
-      // .addCase(fetchPosts.fulfilled, (state, action) => {
-      //   state.status = "succeeded";
-      //   // Adding date and reactions
-      //   let min = 1; // 분
-      //   const loadedPosts = action.payload.map((post) => {
-      //     post.date = sub(new Date(), { minutes: min++ }).toISOString();
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        // Adding date and reactions
+        let min = 1; // 분
+        console.log("fetch", action.payload);
+        const loadedPosts = action.payload.map((post) => {
+          post.DATE = sub(parseISO(post.DATE), {}).toLocaleString();
 
-      //     return post;
-      //   });
+          return post;
+        });
 
-      //   // Add any fetched posts to the array
-      //   postAdapter.upsertMany(state, loadedPosts); //
-      // })
+        // Add any fetched posts to the array
+        postAdapter.upsertMany(state, loadedPosts); //
+      })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
@@ -82,6 +85,7 @@ export const {
   selectAll: selectAllPosts,
   selectById: selectPostById,
   selectIds: selectPostIds,
+  selectEntities: selectPosts,
   // Pass in a selector that returns the posts slice of state
 } = postAdapter.getSelectors((state) => state.posts);
 

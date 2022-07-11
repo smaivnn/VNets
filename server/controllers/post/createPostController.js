@@ -2,7 +2,7 @@ const Post = require("../../model/Post");
 
 const handlePostCreate = async (req, res) => {
   console.log(req.body);
-  const { USER_ID, USER_NICKNAME, TITLE, CLASSIFICATION, DESCRIPTION } =
+  const { USER_ID, USER_NICKNAME, TITLE, CLASSIFICATION, DESCRIPTION, DATE } =
     req.body;
   if (!USER_ID || !USER_NICKNAME || !TITLE || !CLASSIFICATION || !DESCRIPTION)
     return res.status(400).json({ message: "Fail create post." });

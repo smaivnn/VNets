@@ -40,6 +40,9 @@ function App() {
 
         <Route path="board">
           <Route path="notice" element={<PostList />} />
+          <Route path="study" element={<PostList />} />
+          <Route path="question" element={<PostList />} />
+          <Route path="community" element={<PostList />} />
           <Route path="create" element={<Posting />} />
         </Route>
 

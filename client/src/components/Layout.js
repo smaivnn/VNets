@@ -4,8 +4,8 @@ import Header from "./Header";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import Auth from "../features/auth/Auth";
+import LogedIn from "../features/auth/LogedIn";
 import TopPost from "./Post/TopPost";
-import { store } from "../app/store";
 import { useSelector } from "react-redux";
 import { getAuthLogedIn } from "../features/auth/authSlice";
 // h-auto min-h-full pb-[420px]
@@ -30,7 +30,7 @@ const Layout = () => {
             <Outlet />
           </div>
           <div className="inline-block w-[350px] float-right">
-            {AuthState ? <div>success</div> : <Auth />}
+            {AuthState ? <LogedIn /> : <Auth />}
 
             <TopPost />
           </div>
