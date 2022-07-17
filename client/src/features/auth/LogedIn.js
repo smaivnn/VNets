@@ -1,6 +1,21 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
 
 const LogedIn = () => {
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    try {
+      const response = await axios.get("/auth/logout");
+      localStorage.removeItem("userInfo");
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <section className="mb-10">
       <div className="w-full border border-2 border-very_light_one p-3 bg-very_light_three rounded-md">
@@ -19,9 +34,9 @@ const LogedIn = () => {
           </div>
         </div>
         <div className="flex justify-end">
-          <a className="text-xs" href="auth/register">
+          <button className="text-xs" href="auth/register" onClick={logout}>
             로그아웃
-          </a>
+          </button>
         </div>
       </div>
     </section>

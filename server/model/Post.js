@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const autoIncrement = require("mongoose-auto-increment");
+autoIncrement.initialize(mongoose.connection);
 
 const postSchema = new Schema({
   USER_ID: {
@@ -34,6 +36,15 @@ const postSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  POST_ID: {
+    type: Number,
+  },
 });
 
+postSchema.plugin(autoIncrement.plugin, {
+  model: "Post",
+  field: "POST_ID",
+  startAt: 1,
+  increment: 1,
+});
 module.exports = mongoose.model("Post", postSchema);

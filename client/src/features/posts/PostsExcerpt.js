@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import { selectPostById } from "./postsSlice";
@@ -20,14 +20,17 @@ const PostsExcerpt = ({ postId }) => {
   const post = useSelector((state) => selectPostById(state, postId));
   const DESCRIPTION = removeHTMLforExcerpt(post.DESCRIPTION);
   return (
-    <div>
+    <div key={post.POST_ID}>
       <ul>
         <li className="my-5 border borber-2 border-gray-200 px-[10px] py-[6px] border-l-very_peri border-l-[3px] shadow-md shadow-very_light_one align-middle align-middle">
           <div className="inline-block w-[550px]">
-            <a className="block">{post.TITLE.substring(0, 10)}</a>
+            <Link className="block" to={{ pathname: `/board/${post.POST_ID}` }}>
+              {post.TITLE.substring(0, 10)}
+            </Link>
             <div className="inline-block">
-              <span>{DESCRIPTION.substring(0, 75)}</span>
-              <span>안녕</span>
+              <Link to={{ pathname: `/board/${post.POST_ID}` }}>
+                {DESCRIPTION.substring(0, 75)}
+              </Link>
             </div>
           </div>
           <div className="inline-block text-right">
@@ -36,14 +39,6 @@ const PostsExcerpt = ({ postId }) => {
             <p className="text-xs">3 조회 23 추천</p>
           </div>
         </li>
-
-        {/* <li class="border borber-2 border-gray-200 px-[10px] py-[6px] border-l-very_lightgray border-l-[3px] shadow-md">
-          <a>제목</a>
-          <div class="inline-block float-right">
-            <span>writer</span>
-            <span>date</span>
-          </div>
-        </li> */}
       </ul>
     </div>
   );

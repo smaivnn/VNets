@@ -17,13 +17,16 @@ import { useNavigate, useLocation } from "react-router-dom";
   목록에 나타낸다.
 */
 
-const PageHead = {
+export const PageHead = {
   notice: "공지사항",
   study: "스터디",
   question: "질문",
   community: "커뮤니티",
 };
 
+export const matchPageTitle = (currentPage) => {
+  return PageHead[currentPage];
+};
 const PostsList = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -31,10 +34,6 @@ const PostsList = () => {
   const postsStatus = useSelector(getPostsStatus); // current posting status
   const error = useSelector(getPostsError);
   const CLASSIFICATION = location.pathname.split("/")[2];
-
-  const matchPageTitle = (currentPage) => {
-    return PageHead[currentPage];
-  };
 
   const matchPageSubTitle = (currentPage) => {
     return `브이넷 ${PageHead[currentPage]} 게시판 입니다.`;
@@ -46,7 +45,7 @@ const PostsList = () => {
   } else if (postsStatus === "succeeded") {
     content = getpost.map((post, idx) => {
       if (post.CLASSIFICATION === CLASSIFICATION)
-        return <PostsExcerpt key={idx} postId={post._id} />;
+        return <PostsExcerpt key={idx} postId={post.POST_ID} />;
     });
   } else if (postsStatus === "failed") {
     content = <p>{error}</p>;
@@ -56,9 +55,11 @@ const PostsList = () => {
     <section>
       <div>
         <div>
-          <p className="text-2xl">{matchPageTitle(CLASSIFICATION)}</p>
+          <p className="text-2xl">
+            <b>{matchPageTitle(CLASSIFICATION)}</b>
+          </p>
           <p className="inline-block mt-2">
-            {matchPageSubTitle(CLASSIFICATION)}
+            <i>{matchPageSubTitle(CLASSIFICATION)}</i>
           </p>
           <button
             type="button"

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
+
 import Layout from "./components/Layout";
 import Register from "./components/Auth/Register";
-import Editor from "./components/Editor";
-import Admin from "./components/Admin";
 import Unauthorized from "./components/Unauthorized";
 import RequireAuth from "./features/auth/RequireAuth";
 import Home from "./components/Home";
@@ -11,7 +10,8 @@ import HomePage from "./pages/HomePage";
 import PostList from "./features/posts/PostsList";
 import Posting from "./features/posts/Posting";
 import Auth from "./features/auth/Auth";
-import PersistLogin from "./features/auth/PersistLogin";
+import SinglePostPage from "./features/posts/SinglePostPage";
+import EditSinglePost from "./features/posts/EditSinglePost";
 import { getAuthLogedIn, loginCheck } from "./features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { store } from "./app/store";
@@ -39,6 +39,8 @@ function App() {
         <Route index element={<HomePage />} />
 
         <Route path="board">
+          <Route path=":POST_ID" element={<SinglePostPage />} />
+          <Route path="edit/:POST_ID" element={<EditSinglePost />} />
           <Route path="notice" element={<PostList />} />
           <Route path="study" element={<PostList />} />
           <Route path="question" element={<PostList />} />

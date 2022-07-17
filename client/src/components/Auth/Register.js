@@ -50,52 +50,54 @@ const Register = () => {
 
   return (
     <>
-      <section>
-        <h1>Register</h1>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="UserId">ID</label>
+      <section className="w-max mx-auto">
+        <h1 className="text-2xl mb-5">Register</h1>
+        <form
+          onSubmit={handleSubmit}
+          className="border border-2 border-very_light_one p-10 rounded-md"
+        >
+          <label htmlFor="UserId" className="inline-block w-[200px]">
+            ID :
+          </label>
           <input
+            className="w-full text-sm mb-8 border-b-2 placeholder:italic focus-within:border-indigo-500 focus:outline-none"
             type="text"
             id="UserId"
-            // ref={userRef}
             autoComplete="off"
             onChange={(e) => setUserId(e.target.value)}
             value={UserId}
             required
-            // aria-invalid={validName ? "false" : "true"}
-            // aria-describedby="uidnote"
-            // onFocus={() => setUserFocus(true)}
-            // onBlur={() => setUserFocus(false)}
           />
           <br />
-          <label htmlFor="UserPwd">PASSWORD</label>
+          <label htmlFor="UserPwd" className="inline-block w-[200px]">
+            Password :
+          </label>
           <input
+            className="w-full text-sm mb-8 border-b-2 placeholder:italic focus-within:border-indigo-500 focus:outline-none"
             type="password"
             id="UserPwd"
             onChange={(e) => setUserPwd(e.target.value)}
             value={UserPwd}
             required
-            // aria-invalid={validPwd ? "false" : "true"}
-            // aria-describedby="pwdnote"
-            // onFocus={() => setPwdFocus(true)}
-            // onBlur={() => setPwdFocus(false)}
           />
           <br />
-          <label htmlFor="confirm_pwd">Confirm Password:</label>
+          <label htmlFor="confirm_pwd" className="inline-block w-[200px] ">
+            Confirm Password :
+          </label>
           <input
+            className="w-full text-sm mb-8 border-b-2 placeholder:italic focus-within:border-indigo-500 focus:outline-none"
             type="password"
             id="confirm_pwd"
             onChange={(e) => setMatchPwd(e.target.value)}
             value={MatchPwd}
             required
-            // aria-invalid={validMatch ? "false" : "true"}
-            // aria-describedby="confirmnote"
-            // onFocus={() => setMatchFocus(true)}
-            // onBlur={() => setMatchFocus(false)}
           />
           <br />
-          <label htmlFor="UserName">Name</label>
+          <label htmlFor="UserName" className="inline-block w-[200px]">
+            Name :
+          </label>
           <input
+            className="w-full text-sm mb-8 border-b-2 placeholder:italic focus-within:border-indigo-500 focus:outline-none"
             type="text"
             id="UserName"
             // ref={userRef}
@@ -103,51 +105,41 @@ const Register = () => {
             onChange={(e) => setUserName(e.target.value)}
             value={UserName}
             required
-            // aria-invalid={validName ? "false" : "true"}
-            // aria-describedby="uidnote"
-            // onFocus={() => setUserFocus(true)}
-            // onBlur={() => setUserFocus(false)}
           />
           <br />
-          <label htmlFor="studentId">student Id</label>
+          <label htmlFor="studentId" className="inline-block w-[200px]">
+            student Id :
+          </label>
           <input
+            className="w-full text-sm mb-8 border-b-2 placeholder:italic focus-within:border-indigo-500 focus:outline-none"
             type="text"
             id="studentId"
-            // ref={userRef}
             autoComplete="off"
             onChange={(e) => setStudentId(e.target.value)}
             value={StudentId}
             required
-            // aria-invalid={validName ? "false" : "true"}
-            // aria-describedby="uidnote"
-            // onFocus={() => setUserFocus(true)}
-            // onBlur={() => setUserFocus(false)}
           />
           <br />
-          <label htmlFor="NickName">NickName</label>
+          <label htmlFor="NickName" className="inline-block w-[200px]">
+            Nickname :
+          </label>
           <input
+            className="w-full text-sm mb-8 border-b-2 placeholder:italic focus-within:border-indigo-500 focus:outline-none"
             type="text"
             id="NickName"
-            // ref={userRef}
             autoComplete="off"
             onChange={(e) => setNickname(e.target.value)}
             value={Nickname}
             required
-            // aria-invalid={validName ? "false" : "true"}
-            // aria-describedby="uidnote"
-            // onFocus={() => setUserFocus(true)}
-            // onBlur={() => setUserFocus(false)}
           />
           <br />
-          <button type="submit">BUTTON</button>
+          <button
+            type="submit"
+            className="transform text-2xl w-full rounded-sm bg-indigo-600 py-2 font-bold duration-300 hover:bg-indigo-400"
+          >
+            Join us !
+          </button>
         </form>
-        <p>
-          Already registered?
-          <br />
-          <span className="line">
-            <Link to="/">Sign In</Link>
-          </span>
-        </p>
       </section>
     </>
   );

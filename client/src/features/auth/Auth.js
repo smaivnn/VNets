@@ -42,7 +42,6 @@ const Auth = () => {
         setUSER_ID("");
         setUSER_ID("");
         console.log("login success");
-        console.log(store.getState().auth.logedIn);
         // navigate("/");
       } catch (err) {
         if (!err?.response) {
@@ -104,7 +103,7 @@ const Auth = () => {
         </div>
         <div className="flex justify-between">
           <a className="text-xs">아이디·비밀번호찾기</a>
-          <a className="text-xs" href="auth/register">
+          <a className="text-xs" href="/auth/register">
             회원가입
           </a>
         </div>

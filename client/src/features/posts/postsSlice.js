@@ -12,7 +12,7 @@ const POSTS_URL = "post";
 
 // 최신순 정렬
 const postAdapter = createEntityAdapter({
-  selectId: (post) => post._id,
+  selectId: (post) => post.POST_ID,
   sortComparer: (a, b) => b.DATE.localeCompare(a.DATE),
 });
 
@@ -40,6 +40,23 @@ export const addNewPost = createAsyncThunk(
       return response.data;
     } catch (err) {
       return err.message;
+    }
+  }
+);
+
+export const updatePost = createAsyncThunk(
+  "posts/updatePost",
+  async (initialPost) => {
+    const { POST_ID } = initialPost;
+    try {
+      const response = await axios.put(
+        `${POSTS_URL}/edit/${POST_ID}`,
+        initialPost
+      );
+      return response.data;
+    } catch (err) {
+      return err.message;
+      // return initialPost; // only for testing Redux!
     }
   }
 );
@@ -76,6 +93,21 @@ const postsSlice = createSlice({
 
         console.log(action.payload);
         postAdapter.addOne(state, action.payload);
+      })
+      .addCase(updatePost.fulfilled, (state, action) => {
+        console.log(action.payload);
+        if (!action.payload?.POST_ID) {
+          console.log("Update could not complete");
+          console.log(action.payload);
+          return;
+        }
+        action.payload.DATE = sub(
+          parseISO(action.payload.DATE),
+          {}
+        ).toLocaleString();
+
+        // save to newest
+        postAdapter.upsertOne(state, action.payload);
       });
   },
 });
