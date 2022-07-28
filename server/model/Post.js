@@ -29,8 +29,13 @@ const postSchema = new Schema({
     default: 0,
   },
   LIKE: {
-    tpye: Number,
-    default: 0,
+    count: {
+      type: Number,
+      default: 0,
+    },
+    user: {
+      type: [],
+    },
   },
   DATE: {
     type: Date,
@@ -38,6 +43,13 @@ const postSchema = new Schema({
   },
   POST_ID: {
     type: Number,
+  },
+  VISIBLE: {
+    type: Boolean,
+    default: true,
+  },
+  COMMENT: {
+    type: [],
   },
 });
 

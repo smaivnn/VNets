@@ -24,7 +24,7 @@ const initialState = postAdapter.getInitialState({
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
     const response = await axios.get(POSTS_URL);
-    return [...response.data.response];
+    return [...response.data.foundPost];
   } catch (err) {
     return err.message;
   }
@@ -61,6 +61,24 @@ export const updatePost = createAsyncThunk(
   }
 );
 
+export const deletePost = createAsyncThunk(
+  "posts/deletePost",
+  async (initialPost) => {
+    const { POST_ID } = initialPost;
+    try {
+      // 글을 지워도 postId값만 삭제하여 fetch되지않게, 백업본.
+      const response = await axios.put(
+        `${POSTS_URL}/delete/${POST_ID}`,
+        initialPost
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -89,10 +107,11 @@ const postsSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addNewPost.fulfilled, (state, action) => {
-        // action.payload.DATE = new Date().toISOString();
-
-        console.log(action.payload);
-        postAdapter.addOne(state, action.payload);
+        action.payload.result.DATE = sub(
+          parseISO(action.payload.DATE),
+          {}
+        ).toLocaleString();
+        postAdapter.addOne(state, action.payload.result);
       })
       .addCase(updatePost.fulfilled, (state, action) => {
         console.log(action.payload);
@@ -108,6 +127,15 @@ const postsSlice = createSlice({
 
         // save to newest
         postAdapter.upsertOne(state, action.payload);
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        if (action.payload.success === false) {
+          console.log("Delete could not complete");
+          console.log(action.payload);
+          return;
+        }
+        const { POST_ID } = action.payload;
+        postAdapter.removeOne(state, POST_ID);
       });
   },
 });
@@ -125,9 +153,93 @@ export const getPostsStatus = (state) => state.posts.status;
 export const getPostsError = (state) => state.posts.error;
 
 // 이 전이랑 상태가 같으면 render X,
-export const selectPostsbyUser = createSelector(
-  [selectAllPosts, (state, userId) => userId],
-  (posts, userId) => posts.filter((post) => post.userId === userId)
+export const selectPostsCategoryNotice = createSelector(
+  [selectAllPosts],
+  (posts) => {
+    const value = posts.filter((post) => post.CLASSIFICATION === "notice");
+    value.sort(function (a, b) {
+      if (a.POST_ID < b.POST_ID) {
+        return 1;
+      }
+      if (a.POST_ID > b.POST_ID) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    return value;
+  }
+);
+
+export const selectPostsCategoryStudy = createSelector(
+  [selectAllPosts],
+  (posts) => {
+    const value = posts.filter((post) => post.CLASSIFICATION === "study");
+    value.sort(function (a, b) {
+      if (a.POST_ID < b.POST_ID) {
+        return 1;
+      }
+      if (a.POST_ID > b.POST_ID) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    return value;
+  }
+);
+
+export const selectPostsCategoryCommunity = createSelector(
+  [selectAllPosts],
+  (posts) => {
+    const value = posts.filter((post) => post.CLASSIFICATION === "community");
+    value.sort(function (a, b) {
+      if (a.POST_ID < b.POST_ID) {
+        return 1;
+      }
+      if (a.POST_ID > b.POST_ID) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    return value;
+  }
+);
+
+export const selectPostsCategoryQuestion = createSelector(
+  [selectAllPosts],
+  (posts) => {
+    const value = posts.filter((post) => post.CLASSIFICATION === "community");
+    value.sort(function (a, b) {
+      if (a.POST_ID < b.POST_ID) {
+        return 1;
+      }
+      if (a.POST_ID > b.POST_ID) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    return value;
+  }
+);
+
+export const selectAllSortedPosts = createSelector(
+  [selectAllPosts],
+  (posts) => {
+    const post = posts.sort(function (a, b) {
+      if (a.POST_ID < b.POST_ID) {
+        return 1;
+      }
+      if (a.POST_ID > b.POST_ID) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    return post;
+  }
 );
 
 export default postsSlice.reducer;

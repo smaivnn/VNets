@@ -22,23 +22,49 @@ const PostsExcerpt = ({ postId }) => {
   return (
     <div key={post.POST_ID}>
       <ul>
-        <li className="my-5 border borber-2 border-gray-200 px-[10px] py-[6px] border-l-very_peri border-l-[3px] shadow-md shadow-very_light_one align-middle align-middle">
-          <div className="inline-block w-[550px]">
-            <Link className="block" to={{ pathname: `/board/${post.POST_ID}` }}>
-              {post.TITLE.substring(0, 10)}
-            </Link>
-            <div className="inline-block">
-              <Link to={{ pathname: `/board/${post.POST_ID}` }}>
-                {DESCRIPTION.substring(0, 75)}
+        {post.COMMENT.length !== 0 ? (
+          <li className="my-3 border borber-2 border-gray-200 px-[10px] py-[6px] border-l-very_peri border-l-[4px] shadow-md shadow-very_light_one align-middle align-middle">
+            <div className="inline-block w-[550px]">
+              <Link
+                className="block"
+                to={{ pathname: `/board/${post.POST_ID}` }}
+              >
+                {post.TITLE.substring(0, 10)}
               </Link>
+              <div className="inline-block">
+                <Link to={{ pathname: `/board/${post.POST_ID}` }}>
+                  {DESCRIPTION.substring(0, 75)}
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="inline-block text-right">
-            <p className="">작성자</p>
-            <p className="text-xs">{post.DATE}</p>
-            <p className="text-xs">3 조회 23 추천</p>
-          </div>
-        </li>
+            <div className="inline-block text-right">
+              <p className="">작성자</p>
+              <p className="text-xs">{post.DATE}</p>
+              <p className="text-xs">{` 조회 ${post.LIKE.count} 추천`}</p>
+            </div>
+          </li>
+        ) : (
+          <li className="my-3 border borber-2 border-gray-200 px-[10px] py-[6px] border-l-very_lightgray border-l-[4px] shadow-md shadow-very_lightgray align-middle align-middle">
+            <div className="inline-block w-[550px]">
+              <Link
+                className="block"
+                to={{ pathname: `/board/${post.POST_ID}` }}
+              >
+                {post.TITLE.substring(0, 10)}
+              </Link>
+              <div className="inline-block">
+                <Link to={{ pathname: `/board/${post.POST_ID}` }}>
+                  {DESCRIPTION.substring(0, 75)}
+                </Link>
+              </div>
+            </div>
+            <div className="inline-block text-right">
+              <p className="">작성자</p>
+              <p className="text-xs">{post.DATE}</p>
+              <p className="text-xs">{` 조회 ${post.LIKE.count} 추천`}</p>
+            </div>
+          </li>
+        )}
       </ul>
     </div>
   );

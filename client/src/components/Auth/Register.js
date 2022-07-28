@@ -11,7 +11,8 @@ const Register = () => {
   const [UserName, setUserName] = useState("");
   const [StudentId, setStudentId] = useState("");
   const [Nickname, setNickname] = useState("");
-
+  const [CheckId, setCheckId] = useState(true);
+  const [Message, setMessage] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -48,17 +49,41 @@ const Register = () => {
     }
   };
 
+  const handleCheckId = async (e) => {
+    e.preventDefault();
+    const response = await axios.get(`auth/doubleCheck`, {
+      params: {
+        USER_ID: UserId,
+      },
+    });
+
+    setCheckId(response.data.doubleCheck);
+    setMessage(response.data.message);
+  };
+
   return (
     <>
       <section className="w-max mx-auto">
         <h1 className="text-2xl mb-5">Register</h1>
         <form
           onSubmit={handleSubmit}
-          className="border border-2 border-very_light_one p-10 rounded-md"
+          className="w-[550px] border border-2 border-very_light_one p-10 rounded-md"
         >
-          <label htmlFor="UserId" className="inline-block w-[200px]">
-            ID :
+          <label htmlFor="UserId" className="inline-block w-[20px]">
+            ID
           </label>
+          <button
+            onClick={handleCheckId}
+            className="border border-1 border-black px-2 rounded-md pt-1 text-xs mx-3"
+          >
+            중복확인
+          </button>
+          {CheckId ? (
+            <span className="text-xs text-very_green">{Message}</span>
+          ) : (
+            <span className="text-xs text-red-500">{Message}</span>
+          )}
+
           <input
             className="w-full text-sm mb-8 border-b-2 placeholder:italic focus-within:border-indigo-500 focus:outline-none"
             type="text"
@@ -133,12 +158,22 @@ const Register = () => {
             required
           />
           <br />
-          <button
-            type="submit"
-            className="transform text-2xl w-full rounded-sm bg-indigo-600 py-2 font-bold duration-300 hover:bg-indigo-400"
-          >
-            Join us !
-          </button>
+          {CheckId ? (
+            <button
+              type="submit"
+              className="transform text-2xl w-full rounded-sm bg-indigo-600 py-2 font-bold duration-300 hover:bg-indigo-400"
+            >
+              Join us !
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="text-2xl w-full rounded-sm bg-indigo-300 py-2 font-bold"
+              disabled
+            >
+              Join us !
+            </button>
+          )}
         </form>
       </section>
     </>

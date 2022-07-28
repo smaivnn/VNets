@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "../../api/axios";
+import { getUserInfo } from "../auth/authSlice";
+import Comment from "./Comment";
 import { matchPageTitle } from "./PostsList";
-import { selectPostById } from "./postsSlice";
+import { deletePost, selectPostById } from "./postsSlice";
 
 const SinglePostPage = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const post = useSelector((state) => selectPostById(state, params.POST_ID));
-  console.log(post);
+
+  const POST_ID = post?.POST_ID;
+  const USER_ID = post?.USER_ID;
+  const USER_NICKNAME = post?.USER_NICKNAME;
+  const count = post?.LIKE?.count;
+  const [LikeCount, setLikeCount] = useState(count);
 
   function removeHTMLforDescription(text) {
     text = text?.replace(/<br\/>/gi, "\n");
@@ -20,9 +28,37 @@ const SinglePostPage = () => {
     return text;
   }
 
+  const currentUserId = useSelector(getUserInfo);
+  const onLikeBtnClick = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`post/like/${POST_ID}`, {
+        POST_ID,
+        USER_ID: currentUserId.USER_ID,
+      });
+      setLikeCount(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onDeleteBtnClick = () => {
     try {
-    } catch (error) {}
+      const result = window.confirm(`Do you really want to DELETE?`);
+      if (result) {
+        dispatch(
+          deletePost({
+            POST_ID,
+            USER_ID,
+            USER_NICKNAME,
+          })
+        ).unwrap();
+        alert(`글이 삭제되었습니다.`);
+        navigate(`/board/${post?.CLASSIFICATION}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // post not found
@@ -74,6 +110,25 @@ const SinglePostPage = () => {
         >
           삭제
         </button>
+      </div>
+      <div className="w-full my-10 mx-auto clear-both">
+        <p className="min-w-auto w-14 h-14 text-lg text-center pt-4 bg-blue-500 p-2 rounded-full text-white font-semibold  ease-in-out">
+          {LikeCount === undefined ? post?.LIKE.count : `${LikeCount}`}
+        </p>
+        <button
+          onClick={onLikeBtnClick}
+          className="min-w-auto w-[85px] h-[30px] border border-1 border-black rounded-sm text-xs bg-blue-500 opacity-70 text-white hover:opacity-100  text-white font-semibold transition-transform hover:-translate-y-2 ease-in-out"
+        >
+          {`추천 up!`}
+        </button>
+      </div>
+      <div>
+        {/*comment*/}
+        <p className="w-full border-b-2 border-very_peri text-xs clear-both">
+          전체 댓글{" "}
+          <span className="text-sm text-red-500">{post.COMMENT.length}</span> 개
+        </p>
+        <Comment postId={POST_ID} />
       </div>
     </section>
   );

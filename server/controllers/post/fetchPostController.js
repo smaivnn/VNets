@@ -2,14 +2,13 @@ const Post = require("../../model/Post");
 
 const handlePostList = async (req, res) => {
   try {
-    const response = await Post.find({}).exec();
+    const foundPost = await Post.find({ VISIBLE: true }).exec();
 
-    if (!response) {
+    if (!foundPost) {
       return res.sendStatus(401);
     }
-    console.log(response);
 
-    res.json({ response });
+    res.json({ foundPost });
   } catch (error) {
     console.log(error);
   }

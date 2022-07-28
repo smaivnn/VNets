@@ -46,7 +46,7 @@ const TextEditor = () => {
     if (canSave) {
       const USER_ID = userInfo.USER_ID;
       const USER_NICKNAME = userInfo.USER_NICKNAME;
-      const DATE = new Date().toISOString();
+
       try {
         dispatch(
           addNewPost({
@@ -56,10 +56,14 @@ const TextEditor = () => {
             CLASSIFICATION,
             DESCRIPTION: editorToHtml,
           })
-        ).unwrap();
-        setTITLE("");
-        setDESCRIPTION("");
-        navigate("/notice");
+        )
+          .unwrap()
+          .then((result) => {
+            setTITLE("");
+            setDESCRIPTION("");
+
+            navigate(`/board/${result.result.POST_ID}`);
+          });
       } catch (error) {
         console.log(error);
       }
