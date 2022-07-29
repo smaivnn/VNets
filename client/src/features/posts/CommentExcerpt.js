@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { parseISO, sub } from "date-fns";
+import axios from "../../api/axios";
+import { useSelector } from "react-redux";
+import { getUserInfo } from "../auth/authSlice";
 
-const CommentExcerpt = ({ info }) => {
+const CommentExcerpt = ({ info, postId }) => {
+  const UserInfo = useSelector(getUserInfo);
   const [Comment, setComment] = useState(info.COMMENT);
   const [CommentStatus, setCommentStatus] = useState(false);
 
@@ -10,11 +14,29 @@ const CommentExcerpt = ({ info }) => {
     setCommentStatus(true);
   };
 
-  const setCommentSubmitBtnClick = (e) => {
+  const setCommentSubmitBtnClick = async (e) => {
+    const POST_ID = postId;
+    try {
+      const response = await axios.put(`post/comment/edit/${POST_ID}`, {
+        USER_ID: UserInfo.USER_ID,
+        DATE: info.DATE,
+        COMMENT: Comment,
+        POST_ID: postId,
+      });
+      if (response.data.success === true) {
+        setComment(Comment);
+      }
+    } catch (error) {
+      console.log("fail edit comment");
+    }
     setCommentStatus(false);
   };
 
   const delCommentBtnClick = (e) => {};
+
+  const cancelEditCommentBtn = (e) => {
+    setCommentStatus(false);
+  };
 
   return (
     <div className="border border-1 border-gray-300 bg-gray-100 p-3">
@@ -33,20 +55,29 @@ const CommentExcerpt = ({ info }) => {
           </div>
         </div>
 
-        <div className="">
-          <button onClick={setCommentBtnClick} className="block">
-            수정
-          </button>
-          {CommentStatus ? (
-            <button onClick={setCommentSubmitBtnClick} className="block">
-              완료
-            </button>
-          ) : (
-            <button onClick={delCommentBtnClick} className="block">
-              삭제
-            </button>
-          )}
-        </div>
+        {UserInfo?.USER_ID === info?.USER_ID ? (
+          <div className="">
+            {CommentStatus ? (
+              <>
+                <button onClick={cancelEditCommentBtn} className="block">
+                  취소
+                </button>
+                <button onClick={setCommentSubmitBtnClick} className="block">
+                  완료
+                </button>
+              </>
+            ) : (
+              <>
+                <button onClick={setCommentBtnClick} className="block">
+                  수정
+                </button>
+                <button onClick={delCommentBtnClick} className="block">
+                  삭제
+                </button>
+              </>
+            )}
+          </div>
+        ) : undefined}
       </div>
 
       {CommentStatus ? (
@@ -58,7 +89,7 @@ const CommentExcerpt = ({ info }) => {
           onChange={(e) => setComment(e.target.value)}
         ></textarea>
       ) : (
-        <p className="text-sm">{info.COMMENT}</p>
+        <p className="text-sm">{Comment}</p>
       )}
     </div>
   );

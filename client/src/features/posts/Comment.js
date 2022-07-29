@@ -27,7 +27,7 @@ const Comment = ({ postId }) => {
   return (
     <section className="">
       {post.COMMENT.map((items, idx) => {
-        return <CommentExcerpt info={items} key={idx} />;
+        return <CommentExcerpt info={items} key={idx} postId={postId} />;
       })}
       <div className="w-full border-y-2 border-very_peri mt-10 py-5">
         <form>
