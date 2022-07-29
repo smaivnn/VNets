@@ -22,7 +22,8 @@ const PostsExcerpt = ({ postId }) => {
   return (
     <div key={post.POST_ID}>
       <ul>
-        {post.COMMENT.length !== 0 ? (
+        {post.COMMENT.filter((element) => element.VISIBLE === true).length !==
+        0 ? (
           <li className="my-3 border borber-2 border-gray-200 px-[10px] py-[6px] border-l-very_peri border-l-[4px] shadow-md shadow-very_light_one align-middle align-middle">
             <div className="inline-block w-[550px]">
               <Link
@@ -40,7 +41,7 @@ const PostsExcerpt = ({ postId }) => {
             <div className="inline-block text-right">
               <p className="">작성자</p>
               <p className="text-xs">{post.DATE}</p>
-              <p className="text-xs">{` 조회 ${post.LIKE.count} 추천`}</p>
+              <p className="text-xs">{` 조회 0 추천 ${post.LIKE.count}`}</p>
             </div>
           </li>
         ) : (
@@ -61,7 +62,7 @@ const PostsExcerpt = ({ postId }) => {
             <div className="inline-block text-right">
               <p className="">작성자</p>
               <p className="text-xs">{post.DATE}</p>
-              <p className="text-xs">{` 조회 ${post.LIKE.count} 추천`}</p>
+              <p className="text-xs">{` 조회 0 추천 ${post.LIKE.count}`}</p>
             </div>
           </li>
         )}

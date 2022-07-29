@@ -8,14 +8,13 @@ const CommentExcerpt = ({ info, postId }) => {
   const UserInfo = useSelector(getUserInfo);
   const [Comment, setComment] = useState(info.COMMENT);
   const [CommentStatus, setCommentStatus] = useState(false);
-
+  const POST_ID = postId;
   const setCommentBtnClick = (e) => {
     e.preventDefault();
     setCommentStatus(true);
   };
 
   const setCommentSubmitBtnClick = async (e) => {
-    const POST_ID = postId;
     try {
       const response = await axios.put(`post/comment/edit/${POST_ID}`, {
         USER_ID: UserInfo.USER_ID,
@@ -32,7 +31,23 @@ const CommentExcerpt = ({ info, postId }) => {
     setCommentStatus(false);
   };
 
-  const delCommentBtnClick = (e) => {};
+  const delCommentBtnClick = async (e) => {
+    const result = window.confirm(`Do you really want to DELETE?`);
+    if (result) {
+      try {
+        const response = await axios.put(`post/comment/delete/${POST_ID}`, {
+          USER_ID: UserInfo.USER_ID,
+          DATE: info.DATE,
+          POST_ID: postId,
+        });
+        if (response.data.success === true) {
+          window.location.reload();
+        }
+      } catch (error) {
+        console.log("fail edit comment");
+      }
+    }
+  };
 
   const cancelEditCommentBtn = (e) => {
     setCommentStatus(false);

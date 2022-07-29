@@ -13,6 +13,7 @@ const handleComment = async (req, res) => {
     USER_NICKNAME,
     COMMENT,
     DATE,
+    VISIBLE: true,
   };
   try {
     let commentArray = foundPost.COMMENT;

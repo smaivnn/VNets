@@ -126,7 +126,10 @@ const SinglePostPage = () => {
         {/*comment*/}
         <p className="w-full border-b-2 border-very_peri text-xs clear-both">
           전체 댓글{" "}
-          <span className="text-sm text-red-500">{post.COMMENT.length}</span> 개
+          <span className="text-sm text-red-500">
+            {post.COMMENT.filter((element) => element.VISIBLE === true).length}
+          </span>{" "}
+          개
         </p>
         <Comment postId={POST_ID} />
       </div>

@@ -1,10 +1,13 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
+import { getUserInfo } from "./authSlice";
 
 const LogedIn = () => {
   const navigate = useNavigate();
+
+  const UserInfo = useSelector(getUserInfo);
 
   const logout = async () => {
     try {
@@ -24,7 +27,9 @@ const LogedIn = () => {
         </div>
         <div>
           <div className="item-center max-w-md w-full bg-white rounded space-y-2 my-1">
-            <span>NICK_NAME</span>
+            <a className="underline underline-offset-4">
+              {UserInfo?.USER_NICKNAME}
+            </a>
             <span>님</span>
             <div>
               <span>1</span>
