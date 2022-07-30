@@ -10,6 +10,7 @@ const likeBtnController = require("../controllers/post/likeBtnController");
 const bestPostController = require("../controllers/post/bestPostController");
 const editCommentController = require("../controllers/post/editCommentController");
 const deleteCommentController = require("../controllers/post/deleteCommentController");
+const updateHitsController = require("../controllers/post/updateHitsController");
 
 router.get("/", fetchPostController.handlePostList);
 router.post("/create", createPostController.handlePostCreate);
@@ -24,4 +25,6 @@ router.put(
   "/comment/delete/:POST_ID",
   deleteCommentController.handleDeleteComment
 );
+router.post("/hits/:POST_ID", updateHitsController.handleUpdateHits);
+
 module.exports = router;

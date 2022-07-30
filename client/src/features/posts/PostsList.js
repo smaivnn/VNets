@@ -29,8 +29,6 @@ export const matchPageTitle = (currentPage) => {
   return PageHead[currentPage];
 };
 
-const ITEMS_PER_PAGE = 10;
-
 const PostsList = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -39,6 +37,7 @@ const PostsList = () => {
   const error = useSelector(getPostsError);
   const CLASSIFICATION = location.pathname.split("/")[2];
 
+  const [ITEMS_PER_PAGE, setITEMS_PER_PAGE] = useState(5);
   const [PostArr, setPostArr] = useState([]); // 페이지 분류한 배열
   const [CurrentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
   const [TotalPost, setTotalPost] = useState(1); // 배열 총 길이 : 총 포스트 개수
@@ -87,18 +86,38 @@ const PostsList = () => {
           <p className="inline-block mt-2">
             <i>{matchPageSubTitle(CLASSIFICATION)}</i>
           </p>
-          <button
-            type="button"
-            className="w-[80px] h-[30px] border border-2 border-very_peri bg-white text-very_peri rounded-md px-2 py-1 transition duration-450 ease select-none hover:bg-very_peri hover:text-white focus:outline-none focus:shadow-outline float-right"
-            onClick={() => navigate(`/board/create`)}
-          >
-            글쓰기
-          </button>
+
+          <div className="float-right">
+            <label>
+              게시물 수:&nbsp;
+              <select
+                type="number"
+                value={ITEMS_PER_PAGE}
+                onChange={({ target: { value } }) =>
+                  setITEMS_PER_PAGE(Number(value))
+                }
+              >
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="2">2</option>
+              </select>
+            </label>
+
+            <button
+              type="button"
+              className="w-[80px] h-[30px] border border-2 border-very_peri bg-white text-very_peri rounded-md px-2 py-1 transition duration-450 ease select-none hover:bg-very_peri hover:text-white focus:outline-none focus:shadow-outline "
+              onClick={() => navigate(`/board/create`)}
+            >
+              글쓰기
+            </button>
+          </div>
         </div>
         {content}
       </div>
 
-      <section>
+      <section className="">
         <Pagination
           TotalPost={TotalPost}
           ITEMS_PER_PAGE={ITEMS_PER_PAGE}

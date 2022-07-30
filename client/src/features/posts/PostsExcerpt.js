@@ -38,10 +38,10 @@ const PostsExcerpt = ({ postId }) => {
                 </Link>
               </div>
             </div>
-            <div className="inline-block text-right">
+            <div className="inline-block text-right w-[155px]">
               <p className="">작성자</p>
               <p className="text-xs">{post.DATE}</p>
-              <p className="text-xs">{` 조회 0 추천 ${post.LIKE.count}`}</p>
+              <p className="text-xs">{`${post.HITS} 조회 ${post.LIKE.count} 추천 `}</p>
             </div>
           </li>
         ) : (
@@ -59,7 +59,7 @@ const PostsExcerpt = ({ postId }) => {
                 </Link>
               </div>
             </div>
-            <div className="inline-block text-right">
+            <div className="inline-block text-right w-[155px]">
               <p className="">작성자</p>
               <p className="text-xs">{post.DATE}</p>
               <p className="text-xs">{` 조회 0 추천 ${post.LIKE.count}`}</p>

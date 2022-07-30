@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "../../api/axios";
@@ -12,12 +12,27 @@ const SinglePostPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const post = useSelector((state) => selectPostById(state, params.POST_ID));
+  const currentUserId = useSelector(getUserInfo);
 
   const POST_ID = post?.POST_ID;
   const USER_ID = post?.USER_ID;
   const USER_NICKNAME = post?.USER_NICKNAME;
   const count = post?.LIKE?.count;
   const [LikeCount, setLikeCount] = useState(count);
+
+  useEffect(() => {
+    console.log(POST_ID);
+    async function addHits() {
+      try {
+        await axios.post(`post/hits/${POST_ID}`, {
+          POST_ID,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if (POST_ID !== undefined) addHits();
+  }, [POST_ID]);
 
   function removeHTMLforDescription(text) {
     text = text?.replace(/<br\/>/gi, "\n");
@@ -28,7 +43,6 @@ const SinglePostPage = () => {
     return text;
   }
 
-  const currentUserId = useSelector(getUserInfo);
   const onLikeBtnClick = async (e) => {
     e.preventDefault();
     try {
@@ -85,12 +99,15 @@ const SinglePostPage = () => {
         </div>
         <div className="inline-block float-right">
           <span className="text-xs border-r border-r-zinc-300 pr-3 mr-3">
-            조회
+            {post?.HITS}&nbsp;조회
           </span>
           <span className="text-xs border-r border-r-zinc-300 pr-3 mr-3">
-            추천
+            {post?.LIKE.count}&nbsp;추천
           </span>
-          <span className="text-xs ">댓글</span>
+          <span className="text-xs ">
+            {post.COMMENT.filter((element) => element.VISIBLE === true).length}{" "}
+            &nbsp;댓글
+          </span>
         </div>
       </div>
 

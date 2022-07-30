@@ -25,7 +25,7 @@ const postSchema = new Schema({
     required: true,
   },
   HITS: {
-    tpye: Number,
+    type: Number,
     default: 0,
   },
   LIKE: {
