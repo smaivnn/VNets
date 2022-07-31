@@ -12,6 +12,9 @@ import Posting from "./features/posts/Posting";
 import Auth from "./features/auth/Auth";
 import SinglePostPage from "./features/posts/SinglePostPage";
 import EditSinglePost from "./features/posts/EditSinglePost";
+import MyPage from "./features/users/MyPage";
+import UserPostList from "./features/users/UserPostList";
+import EditUserInfo from "./features/users/EditUserInfo";
 import { getAuthLogedIn, loginCheck } from "./features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { store } from "./app/store";
@@ -50,6 +53,13 @@ function App() {
 
         <Route path="auth">
           <Route path="register" element={<Register />} />
+        </Route>
+
+        <Route path="user">
+          <Route path="myPage" element={<MyPage />}>
+            <Route path=":USER_studentID" element={<UserPostList />} />
+            <Route path="edit/:USER_studentID" element={<EditUserInfo />} />
+          </Route>
         </Route>
 
         <Route path="register">

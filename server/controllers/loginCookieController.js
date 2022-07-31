@@ -16,6 +16,7 @@ const handlePageRefresh = async (req, res) => {
   if (foundUser.refreshToken === refreshToken) {
     // get User roles
     const roles = Object.values(foundUser.USER_ROLES);
+    const profile = Object.values(foundUser.USER_PROFILE);
 
     // create JWTs access token
     // sign(payload : information to post in token, secretOrPrivateKey, [option,callback])
@@ -26,6 +27,7 @@ const handlePageRefresh = async (req, res) => {
           USER_NICKNAME: foundUser.USER_NICKNAME,
           USER_studentID: foundUser.USER_studentID,
           roles: roles,
+          USER_PROFILE: profile,
         },
       },
       process.env.ACCESS_TOKEN_SECRET,

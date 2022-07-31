@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import { getUserInfo } from "./authSlice";
 
@@ -27,9 +27,12 @@ const LogedIn = () => {
         </div>
         <div>
           <div className="item-center max-w-md w-full bg-white rounded space-y-2 my-1">
-            <a className="underline underline-offset-4">
+            <Link
+              className="underline underline-offset-4"
+              to={`user/myPage/${UserInfo?.USER_studentID}`}
+            >
               {UserInfo?.USER_NICKNAME}
-            </a>
+            </Link>
             <span>님</span>
             <div>
               <span>1</span>

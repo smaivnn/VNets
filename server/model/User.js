@@ -31,6 +31,36 @@ const userSchema = new Schema({
     User: Number,
     Admin: Number,
   },
+  USER_PROFILE: {
+    Tag1: {
+      type: String,
+      default: "Tag1",
+    },
+    Tag2: {
+      type: String,
+      default: "Tag2",
+    },
+    Tag3: {
+      type: String,
+      default: "Tag3",
+    },
+    Tag4: {
+      type: String,
+      default: "Tag4",
+    },
+    Link1: {
+      type: String,
+      default: "Link1",
+    },
+    Link2: {
+      type: String,
+      default: "Link2",
+    },
+    Comment: {
+      type: String,
+      default: "Comment limit eng 55, kor 30 characters.",
+    },
+  },
 
   refreshToken: String,
 });

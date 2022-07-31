@@ -42,6 +42,7 @@ app.use(cookieParser());
 app.use("/", require("./routes/root"));
 app.use("/auth", require("./routes/auth"));
 app.use("/post", require("./routes/post"));
+app.use("/user", require("./routes/user"));
 app.use("/refresh", require("./routes/refresh"));
 // app.use("/auth", require("./routes/logout"));
 

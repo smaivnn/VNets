@@ -39,6 +39,7 @@ export const login = createAsyncThunk("auth/login", async (initialUser) => {
         USER_NICKNAME: decoded.UserInfo.USER_NICKNAME,
         USER_studentID: decoded.UserInfo.USER_studentID,
         USER_ROLE: decoded.UserInfo.roles,
+        USER_PROFILE: decoded.UserInfo.USER_PROFILE,
         accessToken: accessToken,
       })
     );
@@ -92,6 +93,7 @@ const authSlice = createSlice({
           USER_NICKNAME: decoded.UserInfo.USER_NICKNAME,
           USER_studentID: decoded.UserInfo.USER_studentID,
           USER_ROLE: decoded.UserInfo.roles,
+          USER_PROFILE: decoded.UserInfo.USER_PROFILE,
         };
       })
       .addCase(login.rejected, (state, action) => {
@@ -113,6 +115,7 @@ const authSlice = createSlice({
             USER_NICKNAME: decoded.UserInfo.USER_NICKNAME,
             USER_studentID: decoded.UserInfo.USER_studentID,
             USER_ROLE: decoded.UserInfo.roles,
+            USER_PROFILE: decoded.UserInfo.USER_PROFILE,
           };
         }
       });
